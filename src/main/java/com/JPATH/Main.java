@@ -10,12 +10,16 @@ public class Main {
 
         while (!exit) {
             System.out.println("\n---- Menú de Opciones ----");
+            System.out.println("\n---- JsonPath ----");
             System.out.println("1. Verificar si un valor existe en el JSON exists(String jsonString, String jsonPath)");
             System.out.println("2. Leer un valor del JSON read(String jsonString, String jsonPath)");
             System.out.println("3. Leer un valor con un valor predeterminado readWithDefault(String jsonString, String jsonPath, String defaultValue)");
             System.out.println("4. Verificar si un JSONPath es válido isValidPath(String jsonPath)");
             System.out.println("5. Verificar si un JSON es válido isValidJson(String jsonString)");
-            System.out.println("6. Salir");
+            System.out.println("\n---- File ----");
+            System.out.println("6. Escribir en un archivo writeFile(String path, String contenido)");
+            System.out.println("7. Ejecutar un comando en la consola executeCommand(String comando)");
+            System.out.println("8. Salir");
             System.out.print("Seleccione una opción: ");
 
             if (!scanner.hasNextInt()) {
@@ -73,6 +77,24 @@ public class Main {
                     break;
 
                 case 6:
+                    // Escribir en un archivo
+                    System.out.print("Ingrese la ruta del archivo donde desea escribir: ");
+                    String path = scanner.nextLine();
+                    System.out.print("Ingrese el contenido que desea escribir: ");
+                    String contenido = scanner.nextLine();
+                    String writeFileResult = FileUtils.writeFile(path, contenido);
+                    System.out.println("Resultado de la escritura: " + writeFileResult);
+                    break;
+
+                case 7:
+                    // Ejecutar un comando en la consola
+                    System.out.print("Ingrese el comando que desea ejecutar: ");
+                    String comando = scanner.nextLine();
+                    String executeCommandResult = FileUtils.executeCommand(comando);
+                    System.out.println("Resultado de la ejecución del comando: " + executeCommandResult);
+                    break;
+                    
+                case 8:
                     // Salir
                     exit = true;
                     System.out.println("Saliendo del programa...");
