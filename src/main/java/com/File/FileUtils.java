@@ -15,7 +15,6 @@ public class FileUtils {
      *
      * @param path     La ruta del archivo donde se escribirá el contenido.
      * @param contenido El contenido que se escribirá en el archivo.
-     * @throws IOException Si ocurre algún error de entrada/salida.
      */
     public static String writeFile(String path, String contenido) {
 

@@ -22,6 +22,7 @@ public class Main {
             System.out.println("\n---- File ----");
             System.out.println("6. Escribir en un archivo writeFile(String path, String contenido)");
             System.out.println("7. Ejecutar un comando en la consola executeCommand(String comando)");
+            System.out.println("\n---- general ----");
             System.out.println("8. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -92,10 +93,10 @@ public class Main {
                 case 7:
                     // Ejecutar un comando en la consola
                     System.out.print("Ingrese el path del archivo a adjuntar: ");
-                    String path = scanner.nextLine();
+                    String filePath = scanner.nextLine();
                     System.out.print("Ingrese el url para enviar la peticion: ");
                     String url = scanner.nextLine();
-                    String executeCommandResult = FileUtils.uploadFile(url,path);
+                    String executeCommandResult = FileUtils.uploadFile(url,filePath);
                     System.out.print("el resultado es: " + executeCommandResult);
                     break;
                     
