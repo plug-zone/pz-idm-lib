@@ -21,7 +21,7 @@ public class Main {
             System.out.println("5. Verificar si un JSON es válido isValidJson(String jsonString)");
             System.out.println("\n---- File ----");
             System.out.println("6. Escribir en un archivo writeFile(String path, String contenido)");
-            System.out.println("7. Ejecutar un comando en la consola executeCommand(String comando)");
+            System.out.println("7. Ejecutar un comando en la consola executeCommand(String key)");
             System.out.println("\n---- general ----");
             System.out.println("8. Salir");
             System.out.print("Seleccione una opción: ");
@@ -92,11 +92,9 @@ public class Main {
 
                 case 7:
                     // Ejecutar un comando en la consola
-                    System.out.print("Ingrese el path del archivo a adjuntar: ");
+                    System.out.print("Ingrese la key: ");
                     String filePath = scanner.nextLine();
-                    System.out.print("Ingrese el url para enviar la peticion: ");
-                    String url = scanner.nextLine();
-                    String executeCommandResult = FileUtils.uploadFile(url,filePath);
+                    String executeCommandResult = FileUtils.executeCommand(filePath);
                     System.out.print("el resultado es: " + executeCommandResult);
                     break;
                     
