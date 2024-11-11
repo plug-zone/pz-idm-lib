@@ -42,7 +42,9 @@ public class FileUtils {
      *  */
     public static String executeCurl(String urlString, String filePath, String authorization, String cookie) {
         String ret = "VACIO";
-        if (!urlString.isEmpty() || !filePath.isEmpty() || !authorization.isEmpty() || !cookie.isEmpty()) {
+        if (urlString.isEmpty() || filePath.isEmpty() || authorization.isEmpty() || cookie.isEmpty()) {
+            return ret;
+        } else {
             try {
                 ProcessBuilder processBuilder = new ProcessBuilder(
                         "bash", "-c",
@@ -74,5 +76,4 @@ public class FileUtils {
         }
         return ret;
     }
-
 }
