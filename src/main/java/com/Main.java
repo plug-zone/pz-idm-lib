@@ -21,7 +21,7 @@ public class Main {
             System.out.println("5. Verificar si un JSON es válido isValidJson(String jsonString)");
             System.out.println("\n---- File ----");
             System.out.println("6. Escribir en un archivo writeFile(String path, String contenido)");
-            System.out.println("7. Ejecutar un comando en la consola executeCommand(String key)");
+            System.out.println("7. Ejecutar un comando en la consola executeCurl(String urlString, String filePath, String authorization, String cookie)");
             System.out.println("\n---- general ----");
             System.out.println("8. Salir");
             System.out.print("Seleccione una opción: ");
