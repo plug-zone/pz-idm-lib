@@ -98,7 +98,9 @@ public class Main {
                     String authorization = scanner.nextLine();
                     System.out.print("Ingrese el filePath: ");
                     String filePath = scanner.nextLine();
-                    String executeCommandResult = FileUtils.executeCurl(urlString, filePath, authorization);
+                    System.out.print("Ingrese las cookies: ");
+                    String cookies = scanner.nextLine();
+                    String executeCommandResult = FileUtils.executeCurl(urlString, filePath, authorization, cookies);
                     System.out.print("el resultado es: " + executeCommandResult);
                     break;
                     

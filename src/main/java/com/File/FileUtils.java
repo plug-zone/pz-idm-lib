@@ -40,9 +40,9 @@ public class FileUtils {
      * * @throws IOException Si ocurre algún error de entrada/salida.
      * * @throws InterruptedException Si el proceso es interrumpido.
      *  */
-    public static String executeCurl(String urlString, String filePath, String authorization) {
+    public static String executeCurl(String urlString, String filePath, String authorization, String cookie) {
         String ret = "VACIO";
-        if (!urlString.isEmpty() || !filePath.isEmpty() || !authorization.isEmpty()) {
+        if (!urlString.isEmpty() || !filePath.isEmpty() || !authorization.isEmpty() || !cookie.isEmpty()) {
             try {
                 ProcessBuilder processBuilder = new ProcessBuilder(
                         "bash", "-c",
@@ -50,7 +50,7 @@ public class FileUtils {
                         "curl --location '" + urlString + "'" +
                                 "--header 'X-Atlassian-Token: no-check' " +
                                 "--header 'Authorization: "+ authorization + "'" +
-                                "--header 'Cookie: atlassian.xsrf.token=43ccf0e1bb0dcc469905cccc01b46363648ab3b5_lin' " +
+                                "--header 'Cookie: " + cookie + "'" +
                                 "--form 'file=@" + filePath + "'"
 
                 );
