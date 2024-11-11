@@ -92,9 +92,13 @@ public class Main {
 
                 case 7:
                     // Ejecutar un comando en la consola
-                    System.out.print("Ingrese la key: ");
+                    System.out.print("Ingrese la url: ");
+                    String urlString = scanner.nextLine();
+                    System.out.print("Ingrese el authorization: ");
+                    String authorization = scanner.nextLine();
+                    System.out.print("Ingrese el filePath: ");
                     String filePath = scanner.nextLine();
-                    String executeCommandResult = FileUtils.executeCommand(filePath);
+                    String executeCommandResult = FileUtils.executeCurl(urlString, filePath, authorization);
                     System.out.print("el resultado es: " + executeCommandResult);
                     break;
                     

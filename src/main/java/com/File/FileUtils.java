@@ -40,19 +40,19 @@ public class FileUtils {
      * * @throws IOException Si ocurre algún error de entrada/salida.
      * * @throws InterruptedException Si el proceso es interrumpido.
      *  */
-    public static String executeCommand(String key) {
+    public static String executeCurl(String urlString, String filePath, String authorization) {
         String ret = "VACIO";
-        if (!key.isEmpty()) {
+        if (!urlString.isEmpty() || !filePath.isEmpty() || !authorization.isEmpty()) {
             try {
                 ProcessBuilder processBuilder = new ProcessBuilder(
                         "bash", "-c",
                         //bash , -c linux y cmd.exe , \c windows
-                        "curl --location 'https://directvla.jira.com/rest/api/2/issue/" + key + "/attachments' " +
+                        "curl --location '" + urlString + "'" +
                                 "--header 'X-Atlassian-Token: no-check' " +
-                                "--header 'Authorization: Basic c19yZ19xYW1faWRtX2ppcmFAZGlyZWN0dmxhLmNvbS5hcjpBVEFUVDN4RmZHRjBlVkRRUEdPZjYwaDBJa291Um92VXd4Y2c5ak9CUEhCX1k1TTR3UHBQcXZGMlFlOUpJV2EwTkljSHlJb0FpZ1BIT1BpQV9QanJoeDlIb3ZIa0pTUXpsRktvVWRqcFMtd2U2QTFTWEtfV0JiS2Fyc0JITXRRVTlDbUh2ZEJDZWpXU0ZjZkF1dEsyaXZ2djMzYXBEQ3Noa3p2R0QwTkVzSGlqdVl1YlI1Y25ENk09NTQ4OEIzQzU=' " +
+                                "--header 'Authorization: "+ authorization + "'" +
                                 "--header 'Cookie: atlassian.xsrf.token=43ccf0e1bb0dcc469905cccc01b46363648ab3b5_lin' " +
-                                "--form 'file=@C:\\Users\\lcampassi\\Downloads\\hola.txt'"
-                                // /var/opt/idm/logs/Jira/jira.txt
+                                "--form 'file=@" + filePath + "'"
+
                 );
 
                 // Ejecutar el proceso y capturar su salida
