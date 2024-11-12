@@ -49,12 +49,11 @@ public class FileUtils {
                 ProcessBuilder processBuilder = new ProcessBuilder(
                         "bash", "-c",
                         //bash , -c linux y cmd.exe , \c windows
-                        "curl --location '" + urlString + "'" +
+                        "curl --location '" + urlString + "' " +
                                 "--header 'X-Atlassian-Token: no-check' " +
-                                "--header 'Authorization: "+ authorization + "'" +
-                                "--header 'Cookie: " + cookie + "'" +
+                                "--header 'Authorization: " + authorization + "' " +
+                                "--header 'Cookie: " + cookie + "' " +
                                 "--form 'file=@" + filePath + "'"
-
                 );
 
                 // Ejecutar el proceso y capturar su salida
