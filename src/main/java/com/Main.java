@@ -2,6 +2,7 @@ package com;
 
 import com.File.FileUtils;
 import com.JPATH.JSONPathUtil;
+import com.httpClient.HttpClientUtils;
 
 import java.util.Scanner;
 
@@ -21,7 +22,7 @@ public class Main {
             System.out.println("5. Verificar si un JSON es válido isValidJson(String jsonString)");
             System.out.println("\n---- File ----");
             System.out.println("6. Escribir en un archivo writeFile(String path, String contenido)");
-            System.out.println("7. Ejecutar un comando en la consola executeCurl(String urlString, String filePath, String authorization, String cookie)");
+            System.out.println("7. Enviar un archivo en una petición POST postFile(String url, String filePath, String headersJson)");
             System.out.println("\n---- general ----");
             System.out.println("8. Salir");
             System.out.print("Seleccione una opción: ");
@@ -91,17 +92,15 @@ public class Main {
                     break;
 
                 case 7:
-                    // Ejecutar un comando en la consola
-                    System.out.print("Ingrese la url: ");
-                    String urlString = scanner.nextLine();
-                    System.out.print("Ingrese el authorization: ");
-                    String authorization = scanner.nextLine();
-                    System.out.print("Ingrese el filePath: ");
-                    String filePath = scanner.nextLine();
-                    System.out.print("Ingrese las cookies: ");
-                    String cookies = scanner.nextLine();
-                    String executeCommandResult = FileUtils.executeCurl(urlString, filePath, authorization, cookies);
-                    System.out.print("el resultado es: " + executeCommandResult);
+                    // Ejecutar el método postFile
+                    System.out.print("Ingrese la URL: ");
+                    String postUrl = scanner.nextLine();
+                    System.out.print("Ingrese el filePath (ruta del archivo): ");
+                    String postFilePath = scanner.nextLine();
+                    System.out.println("Ingrese los headers en formato JSON (escriba 'END' en una nueva línea para terminar): ");
+                    String postHeadersJson = leerJson(scanner);
+                    String postFileResult = HttpClientUtils.postFile(postUrl, postFilePath, postHeadersJson);
+                    System.out.println("Resultado de la petición POST: " + postFileResult);
                     break;
                     
                 case 8:
