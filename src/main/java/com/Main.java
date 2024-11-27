@@ -22,8 +22,9 @@ public class Main {
             System.out.println("5. Verificar si un JSON es válido isValidJson(String jsonString)");
             System.out.println("\n---- File ----");
             System.out.println("6. Escribir en un archivo writeFile(String path, String contenido)");
+            System.out.println("\n---- HTTP ----");
             System.out.println("7. Enviar un archivo en una petición POST postFile(String url, String filePath, String headersJson)");
-            System.out.println("\n---- general ----");
+            System.out.println("\n---- General ----");
             System.out.println("8. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -39,7 +40,7 @@ public class Main {
             switch (option) {
                 case 1:
                     // Verificar si un valor existe en el JSON
-                    String jsonString1 = leerJson(scanner);
+                    String jsonString1 = leerJson(scanner, "Ingrese el JSON en formato de cadena (escriba 'END' en una nueva línea para terminar):");
                     System.out.print("Ingrese el JSONPath que quiere verificar: ");
                     String jsonPath1 = scanner.nextLine();
                     boolean exists = JSONPathUtil.exists(jsonString1, jsonPath1);
@@ -48,7 +49,7 @@ public class Main {
 
                 case 2:
                     // Leer un valor del JSON
-                    String jsonString2 = leerJson(scanner);
+                    String jsonString2 = leerJson(scanner, "Ingrese el JSON en formato de cadena (escriba 'END' en una nueva línea para terminar):");
                     System.out.print("Ingrese el JSONPath que quiere leer: ");
                     String jsonPath2 = scanner.nextLine();
                     String result = JSONPathUtil.read(jsonString2, jsonPath2);
@@ -57,7 +58,7 @@ public class Main {
 
                 case 3:
                     // Leer un valor con valor predeterminado
-                    String jsonString3 = leerJson(scanner);
+                    String jsonString3 = leerJson(scanner, "Ingrese el JSON en formato de cadena (escriba 'END' en una nueva línea para terminar):");
                     System.out.print("Ingrese el JSONPath que quiere leer: ");
                     String jsonPath3 = scanner.nextLine();
                     System.out.print("Ingrese el valor predeterminado si no se encuentra el valor: ");
@@ -76,7 +77,7 @@ public class Main {
 
                 case 5:
                     // Verificar si un JSON es válido
-                    String jsonString6 = leerJson(scanner);
+                    String jsonString6 = leerJson(scanner, "Ingrese el JSON en formato de cadena (escriba 'END' en una nueva línea para terminar):");
                     boolean isValidJson = JSONPathUtil.isValidJson(jsonString6);
                     System.out.println("¿El JSON es válido? " + isValidJson);
                     break;
@@ -97,12 +98,39 @@ public class Main {
                     String postUrl = scanner.nextLine();
                     System.out.print("Ingrese el filePath (ruta del archivo): ");
                     String postFilePath = scanner.nextLine();
-                    System.out.println("Ingrese los headers en formato JSON (escriba 'END' en una nueva línea para terminar): ");
-                    String postHeadersJson = leerJson(scanner);
-                    String postFileResult = HttpClientUtils.postFile(postUrl, postFilePath, postHeadersJson);
+                    String postHeadersJson = leerJson(scanner, "Ingrese los headers en formato JSON (escriba 'END' en una nueva línea para terminar): ");
+
+                    System.out.print("¿Desea usar un proxy? (si/no): ");
+                    String useProxyResponse = scanner.nextLine().trim().toLowerCase();
+                    String proxyInfo = null;
+                    String proxyUser = null;
+                    String proxyPass = null;
+
+                    if (useProxyResponse.equals("si")) {
+                        System.out.print("Ingrese el proxy en formato 'host:puerto': ");
+                        proxyInfo = scanner.nextLine();
+                        System.out.print("¿El proxy requiere autenticación? (si/no): ");
+                        String proxyAuthResponse = scanner.nextLine().trim().toLowerCase();
+
+                        if (proxyAuthResponse.equals("si")) {
+                            System.out.print("Ingrese el usuario del proxy: ");
+                            proxyUser = scanner.nextLine();
+                            System.out.print("Ingrese la contraseña del proxy: ");
+                            proxyPass = scanner.nextLine();
+                        } else {
+                            proxyUser = "";
+                            proxyPass = "";
+                        }
+                    } else {
+                        proxyInfo = "";
+                        proxyUser = "";
+                        proxyPass = "";
+                    }
+
+                    String postFileResult = HttpClientUtils.postFile(postUrl, postFilePath, postHeadersJson, proxyInfo, proxyUser, proxyPass);
                     System.out.println("Resultado de la petición POST: " + postFileResult);
                     break;
-                    
+
                 case 8:
                     // Salir
                     exit = true;
@@ -124,8 +152,8 @@ public class Main {
      * @param scanner Scanner para leer la entrada del usuario
      * @return El JSON completo como una cadena
      */
-    private static String leerJson(Scanner scanner) {
-        System.out.println("Ingrese el JSON en formato de cadena (escriba 'END' en una nueva línea para terminar):");
+    private static String leerJson(Scanner scanner, String mensaje) {
+        System.out.println(mensaje);
         System.out.println("Ejemplo de entrada:");
         System.out.println("{");
         System.out.println("  \"id\": 1");
