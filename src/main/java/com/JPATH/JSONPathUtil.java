@@ -1,5 +1,7 @@
 package com.JPATH;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.*;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 
@@ -48,15 +50,30 @@ public class JSONPathUtil {
         try {
             JsonPath.compile(jsonPath);
             Object result = JsonPath.read(jsonString, jsonPath);
+            ObjectMapper objectMapper = new ObjectMapper();
+
             if (result instanceof List) {
                 List<?> list = (List<?>) result;
                 if (list.size() == 1) {
-                    // Devolver ese único elemento.
-                    return list.get(0).toString();
+                    // Extraer si hay un único elemento
+                    result = list.get(0);
                 }
             }
-            return result.toString(); // Devolver el resultado tal cual.
-        } catch (InvalidJsonException | NullPointerException | IllegalArgumentException | PathNotFoundException e) {
+
+            // Si el resultado es un número o un booleano, devolverlo directamente
+            if (result instanceof Number || result instanceof Boolean) {
+                return result.toString();
+            }
+
+            // Si es un String, devolverlo sin comillas
+            if (result instanceof String) {
+                return (String) result;
+            }
+
+            // Si es un objeto o lista, serializarlo correctamente a un JSON
+            return objectMapper.writeValueAsString(result);
+        } catch (InvalidJsonException | NullPointerException | IllegalArgumentException | PathNotFoundException |
+                 JsonProcessingException e) {
             return ERROR_STRING;
         }
     }
@@ -72,12 +89,8 @@ public class JSONPathUtil {
      * @return El valor encontrado o el predeterminado si no existe.
      */
     public static String readWithDefault(String jsonString, String jsonPath, String defaultValue) {
-        try {
-            Object result = read(jsonString, jsonPath);
-            return result != ERROR_STRING ? result.toString() : defaultValue;
-        } catch (PathNotFoundException e) {
-            return defaultValue;
-        }
+        String result = read(jsonString, jsonPath);
+        return ERROR_STRING.equals(result) ? defaultValue : result;
     }
 
     /**
@@ -89,9 +102,9 @@ public class JSONPathUtil {
     public static boolean isValidJson(String jsonString) {
         try {
             JsonProvider provider = Configuration.defaultConfiguration().jsonProvider();
+            provider.parse(jsonString);
 
             // Intenta parsear el JSON, si falla, lanzará una excepción
-            provider.parse(jsonString);
             return true;
         } catch (InvalidJsonException | NullPointerException | IllegalArgumentException e) {
             // Si ocurre una excepción, el JSON no es válido
